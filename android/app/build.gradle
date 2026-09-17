@@ -85,7 +85,7 @@ android {
 
     namespace "com.adc"
     defaultConfig {
-        applicationId "com.adc"
+        applicationId "com.arinidentalcare2025"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 6
