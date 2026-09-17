@@ -1,0 +1,48 @@
+buildscript {
+    ext {
+    buildToolsVersion = findProperty('android.buildToolsVersion') ?: '33.0.0'
+    minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '21')
+    compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '33')
+    targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '33')
+
+    // NDK yang digunakan React Native 0.72 / Expo SDK 49
+    ndkVersion = "23.1.7779620"
+
+    kotlinVersion = findProperty('android.kotlinVersion') ?: '1.8.10'
+    frescoVersion = findProperty('expo.frescoVersion') ?: '2.5.0'
+}
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath('com.android.tools.build:gradle:7.4.2')
+        classpath('com.facebook.react:react-native-gradle-plugin')
+        classpath('org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10')
+        classpath('com.google.gms:google-services:4.4.0')
+    }
+}
+
+allprojects {
+    repositories {
+        maven {
+            url(new File(
+                ['node', '--print', "require.resolve('react-native/package.json')"]
+                    .execute(null, rootDir)
+                    .text
+                    .trim(),
+                '../android'
+            ))
+        }
+
+        maven {
+            url("$rootDir/../node_modules/jsc-android/dist")
+        }
+
+        google()
+        mavenCentral()
+        maven { url 'https://www.jitpack.io' }
+    }
+}
