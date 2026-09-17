@@ -2,11 +2,11 @@ buildscript {
     ext {
    buildToolsVersion = findProperty('android.buildToolsVersion') ?: '34.0.0'
 minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '24')
-compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '35')
-targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '34')
+compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '36')
+targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '36')
 
     // NDK yang digunakan React Native 0.72 / Expo SDK 49
-    ndkVersion = "26.1.10909125"
+    ndkVersion = "27.1.12297006"
 
    kotlinVersion = findProperty('android.kotlinVersion') ?: '2.0.21'
     frescoVersion = findProperty('expo.frescoVersion') ?: '2.5.0'

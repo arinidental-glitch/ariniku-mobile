@@ -46,10 +46,7 @@ public class MainApplication extends Application implements ReactApplication {
         return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
       }
 
-      @Override
-      protected Boolean isHermesEnabled() {
-        return BuildConfig.IS_HERMES_ENABLED;
-      }
+      
   });
 
   @Override
