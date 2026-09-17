@@ -1,14 +1,14 @@
 buildscript {
     ext {
    buildToolsVersion = findProperty('android.buildToolsVersion') ?: '34.0.0'
-minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '23')
-compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '34')
+minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '24')
+compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '35')
 targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '34')
 
     // NDK yang digunakan React Native 0.72 / Expo SDK 49
-    ndkVersion = "23.1.7779620"
+    ndkVersion = "26.1.10909125"
 
-    kotlinVersion = findProperty('android.kotlinVersion') ?: '1.8.10'
+   kotlinVersion = findProperty('android.kotlinVersion') ?: '1.9.25'
     frescoVersion = findProperty('expo.frescoVersion') ?: '2.5.0'
 }
 
@@ -20,7 +20,7 @@ targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: 
     dependencies {
        classpath('com.android.tools.build:gradle:8.2.1')
         classpath('com.facebook.react:react-native-gradle-plugin')
-        classpath('org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10')
+       classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath('com.google.gms:google-services:4.4.0')
     }
 }
