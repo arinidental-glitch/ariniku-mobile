@@ -36,3 +36,5 @@ google-services.json
 
 # typescript
 *.tsbuildinfo
+
+android/app/.cxx/

@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { Alert, Platform, PermissionsAndroid, StatusBar } from 'react-native';
+import {
+    Alert,
+    Platform,
+    PermissionsAndroid,
+    StatusBar,
+    Animated
+} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 //👇🏻 app screens
 import MainStart from "./screens/MainStart";

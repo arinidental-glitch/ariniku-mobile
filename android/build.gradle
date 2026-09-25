@@ -9,7 +9,7 @@ targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: 
     ndkVersion = "27.1.12297006"
 
    kotlinVersion = findProperty('android.kotlinVersion') ?: '2.0.21'
-    frescoVersion = findProperty('expo.frescoVersion') ?: '2.5.0'
+   frescoVersion = findProperty('expo.frescoVersion') ?: '3.6.0'
 }
 
     repositories {

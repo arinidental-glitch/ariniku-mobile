@@ -17,7 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import GetLocation from 'react-native-get-location';
 import config from '../config.js';
 import axios from "axios";
-
+import NetInfo from '@react-native-community/netinfo';
 
 const MainStart = ({ navigation, route }) => {
 
@@ -50,6 +50,7 @@ const MainStart = ({ navigation, route }) => {
 
     const [webError, setWebError] = useState(false);
 
+    const [isConnected, setIsConnected] = useState(true);
 
     // =========================================================
     // INITIAL LOAD
@@ -76,6 +77,114 @@ const MainStart = ({ navigation, route }) => {
         }
 
     }, [route.params?.status_logout]);
+
+
+
+    // =========================================================
+// HEARTBEAT PASIEN ONLINE
+// =========================================================
+
+const heartbeatInterval = useRef(null);
+
+const sendHeartbeat = async (userId) => {
+
+     console.log(
+        "SEND HEARTBEAT CALLED =",
+        userId
+    );
+
+    try {
+
+        if (!userId) {
+            return;
+        }
+
+        const payload = {
+            user_id: Number(userId),
+            platform: Platform.OS,
+            app_version: "1.0.0"
+        };
+
+        const response = await axios.post(
+            `${config.url_backend}/api/ariniku/users/heartbeat`,
+            payload
+        );
+
+        if (
+            response.data &&
+            response.data.meta &&
+            response.data.meta.length > 0 &&
+            response.data.meta[0].code === 200
+        ) {
+            console.log(
+                "HEARTBEAT OK - user_id =",
+                userId
+            );
+        }
+
+    } catch (error) {
+
+        console.log(
+            "HEARTBEAT ERROR =",
+            error?.response?.data || error.message
+        );
+
+    }
+};
+
+
+
+useEffect(() => {
+
+    return () => {
+
+        if (heartbeatInterval.current) {
+
+            clearInterval(heartbeatInterval.current);
+
+            heartbeatInterval.current = null;
+        }
+
+    };
+
+}, []);
+
+
+
+    // =========================================================
+// INTERNET CONNECTION
+// =========================================================
+
+useEffect(() => {
+
+    const unsubscribe = NetInfo.addEventListener(state => {
+
+        const connected =
+            state.isConnected === true &&
+            state.isInternetReachable !== false;
+
+        console.log("INTERNET STATUS =", connected);
+
+        setIsConnected(connected);
+
+        if (!connected) {
+            setShowSplash(false);
+            setWebLoading(false);
+        }
+
+        // Internet kembali
+        if (connected) {
+            setWebError(false);
+
+            setTimeout(() => {
+                webview.current?.reload();
+            }, 500);
+        }
+    });
+
+    return () => unsubscribe();
+
+}, []);
 
 
     useEffect(() => {
@@ -323,6 +432,27 @@ useEffect(() => {
                     : null;
 
 
+                    // =================================================
+// START HEARTBEAT PASIEN ONLINE
+// =================================================
+
+
+
+    sendHeartbeat(dataSessionUserID);
+
+    if (heartbeatInterval.current) {
+        clearInterval(heartbeatInterval.current);
+    }
+
+    heartbeatInterval.current = setInterval(() => {
+
+        sendHeartbeat(dataSessionUserID);
+
+    }, 60000);
+
+
+
+
             // =================================================
             // USER SUDAH LOGIN
             // =================================================
@@ -338,6 +468,7 @@ useEffect(() => {
                 dataSessionUserID !== null
 
             ) {
+
 
 
                 // =============================================
@@ -567,6 +698,10 @@ if (
         }
 
     };
+
+
+
+    
 
 
     // =========================================================
@@ -810,9 +945,8 @@ if (
                 WEBVIEW
             ================================================= */}
 
-            {!webError && (
-
-               <WebView
+           {!webError && isConnected && (
+    <WebView
 
     key={webKey}
 
@@ -893,22 +1027,27 @@ if (
                 ERROR SCREEN
             ================================================= */}
 
-            {webError && (
+           {(webError || !isConnected) && (
 
                 <View style={styles.errorContainer}>
 
                     <Text
                         style={styles.errorTitle}
                     >
-                        Tidak dapat memuat halaman
+                        {!isConnected
+    ? "Tidak ada koneksi internet"
+    : "Tidak dapat memuat halaman"
+}
                     </Text>
 
 
                     <Text
                         style={styles.errorText}
                     >
-                        Silahkan periksa koneksi internet
-                        kemudian coba lagi.
+                       {!isConnected
+    ? "Periksa koneksi Wi-Fi atau data seluler Anda, kemudian coba lagi."
+    : "Silahkan periksa koneksi internet kemudian coba lagi."
+}
                     </Text>
 
 
@@ -917,11 +1056,28 @@ if (
                     >
 
                         <Text
-                            style={styles.retryText}
-                            onPress={handleReload}
-                        >
-                            Coba Lagi
-                        </Text>
+    style={styles.retryText}
+    onPress={async () => {
+
+        const state = await NetInfo.fetch();
+
+        const connected =
+            state.isConnected === true &&
+            state.isInternetReachable !== false;
+
+        if (!connected) {
+            Alert.alert(
+                "Tidak ada koneksi internet",
+                "Silakan periksa koneksi Wi-Fi atau data seluler Anda."
+            );
+            return;
+        }
+
+        handleReload();
+    }}
+>
+    Coba Lagi
+</Text>
 
                     </View>
 
