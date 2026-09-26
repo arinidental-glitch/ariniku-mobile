@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.name.adc</string>
+	<string>net.mobileapps-ariniku.azurewebsites.adc</string>
 	<key>PROJECT_ID</key>
 	<string>ariniku-mobile-apps</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:61836831803:ios:3e86dbf0e62f4d10c7801e</string>
+	<string>1:61836831803:ios:f433fb9432b9d5c9c7801e</string>
 </dict>
 </plist>

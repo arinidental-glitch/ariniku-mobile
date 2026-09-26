@@ -387,7 +387,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.adc;
+				PRODUCT_BUNDLE_IDENTIFIER = net.mobileapps-ariniku.azurewebsites.adc;
 				PRODUCT_NAME = adc;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -411,7 +411,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.adc;
+				PRODUCT_BUNDLE_IDENTIFIER = net.mobileapps-ariniku.azurewebsites.adc;
 				PRODUCT_NAME = adc;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
