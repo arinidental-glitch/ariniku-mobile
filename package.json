@@ -47,7 +47,8 @@
     "socket.io-msgpack-parser": "^3.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@react-native-community/cli": "^20.2.0"
   },
   "private": true
 }
