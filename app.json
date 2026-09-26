@@ -18,22 +18,27 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "org.name.adc",
       "supportsTablet": true
     },
     "android": {
-  "package": "com.arinidentalcare2025",
-  "googleServicesFile": "./google-services.json",
-  "adaptiveIcon": {
-    "foregroundImage": "./assets/adaptive-icon.png",
-    "backgroundColor": "#FFFFFF"
-  }
+      "package": "com.arinidentalcare2025",
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font"
-    ]
-  },
-  "name": "adc"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "487e78b2-077d-434a-81d0-34240a850a4a"
+      }
+    }
+  }
 }
