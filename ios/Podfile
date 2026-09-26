@@ -3,7 +3,6 @@ require File.join(File.dirname(`node --print "require.resolve('react-native/pack
 
 require 'json'
 
-use_modular_headers!
 podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties.json'))) rescue {}
 
 ENV['RCT_NEW_ARCH_ENABLED'] = podfile_properties['newArchEnabled'] == 'true' ? '1' : '0'
