@@ -26,6 +26,7 @@ const MainStart = ({ navigation, route }) => {
     // =========================================================
 
     const [urlPage, setStateURL] = useState(config.url_backend);
+    const [sessionReady, setSessionReady] = useState(false);
 
     const [urlPageNow, setStateURLNow] = useState(
         config.url_backend
@@ -683,6 +684,12 @@ if (
 
             }
 
+            // =============================================
+            // SESSION READY
+            // =============================================
+
+            setSessionReady(true);
+
 
         } catch (e) {
 
@@ -694,6 +701,8 @@ if (
             setStateURL(
                 config.url_backend
             );
+
+            setSessionReady(true);
 
         }
 
@@ -945,7 +954,7 @@ if (
                 WEBVIEW
             ================================================= */}
 
-           {!webError && isConnected && (
+           {sessionReady && !webError && isConnected && (
     <WebView
 
     key={webKey}
@@ -990,29 +999,33 @@ if (
         return true;
     }}
 
-    onNavigationStateChange={(navState) => {
+   onNavigationStateChange={(navState) => {
 
-        setStateURLNow(navState.url);
+    setStateURLNow(navState.url);
 
-        if (
-            navState.url &&
-            navState.url.includes("/Home")
-        ) {
+    // =============================================
+    // LOG NAVIGATION
+    // =============================================
 
-            navigation.navigate(
-                "HomeWithNavBar"
-            );
+    console.log(
+        "WEBVIEW NAVIGATION:",
+        navState.url
+    );
 
-        } else if (
-            navState.url &&
-            navState.url.includes("Logout")
-        ) {
+    // =============================================
+    // LOGOUT
+    // =============================================
 
-            clearAsyncStorage();
+    if (
+        navState.url &&
+        navState.url.includes("Logout")
+    ) {
 
-        }
+        clearAsyncStorage();
 
-    }}
+    }
+
+}}
 
     onError={handleError}
 

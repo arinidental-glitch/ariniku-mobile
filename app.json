@@ -1,4 +1,4 @@
-﻿{
+{
   "expo": {
     "name": "Ariniku Apps",
     "slug": "adc",
@@ -19,7 +19,10 @@
     ],
     "ios": {
       "bundleIdentifier": "net.mobileapps-ariniku.azurewebsites.adc",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.arinidentalcare2025",
@@ -42,4 +45,3 @@
     }
   }
 }
-

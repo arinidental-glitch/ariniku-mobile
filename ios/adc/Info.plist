@@ -8,9 +8,9 @@
     <string>Ariniku Apps</string>
     <key>CFBundleIconName</key>
     <string>AppIcon</string>
-	<key>CFBundleDevelopmentRegion</key>
 	<key>NSLocationWhenInUseUsageDescription</key>
-   <string>Ariniku Apps membutuhkan akses lokasi untuk membantu menentukan lokasi klinik dan layanan terkait.</string>
+    <string>Ariniku Apps membutuhkan akses lokasi untuk membantu menentukan lokasi klinik dan layanan terkait.</string>
+	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
