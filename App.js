@@ -19,7 +19,7 @@ import Chat from "./screens/Chat";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import NotifService from './NotifService';
+//import NotifService from './NotifService';
 
 
 const Stack = createNativeStackNavigator();
@@ -87,19 +87,14 @@ export default class App extends Component {
 
     requestNotificationPermission();
 
-    const notif = new NotifService(
-        this.onRegister.bind(this),
-        this.onNotif.bind(this),
-    );
-
-    // ==========================================
-    // FCM TOKEN REFRESH
-    // ==========================================
-    this.unsubscribeTokenRefresh = null;
-
-    if (Platform.OS === 'ios') {
-        this.initializeFCM();
+    if (Platform.OS === 'android') {
+        const notif = new NotifService(
+            this.onRegister.bind(this),
+            this.onNotif.bind(this),
+        );
     }
+
+    this.unsubscribeTokenRefresh = null;
 }
 
 	render() {

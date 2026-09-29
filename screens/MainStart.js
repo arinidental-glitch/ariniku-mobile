@@ -21,6 +21,8 @@ import NetInfo from '@react-native-community/netinfo';
 
 const MainStart = ({ navigation, route }) => {
 
+	console.log("===== MAINSTART RENDER =====");
+
     // =========================================================
     // URL
     // =========================================================
