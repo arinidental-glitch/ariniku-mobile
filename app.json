@@ -2,6 +2,7 @@
   "expo": {
     "name": "Ariniku Apps",
     "slug": "adc",
+    "jsEngine": "jsc",
     "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,8 +19,9 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "net.mobileapps-ariniku.azurewebsites.adc",
-      "supportsTablet": true,
+  "bundleIdentifier": "net.mobileapps-ariniku.azurewebsites.adc",
+  "supportsTablet": true,
+  "googleServicesFile": "./ios/adc/GoogleService-Info.plist",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -35,9 +37,12 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "expo-font"
-    ],
+   "plugins": [
+  "expo-font",
+  "expo-notifications",
+  "@react-native-firebase/app",
+  "@react-native-firebase/messaging"
+],
     "extra": {
       "eas": {
         "projectId": "487e78b2-077d-434a-81d0-34240a850a4a"

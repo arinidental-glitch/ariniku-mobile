@@ -1,10 +1,36 @@
-#import <UIKit/UIKit.h>
+import Foundation
+import React
+import FirebaseMessaging
 
-#import "AppDelegate.h"
+@objc(FCMTokenModule)
+class FCMTokenModule: NSObject, RCTBridgeModule {
 
-int main(int argc, char * argv[]) {
-  @autoreleasepool {
-    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-  }
+    static func moduleName() -> String! {
+        return "FCMTokenModule"
+    }
+
+    @objc
+    func getToken(
+        _ resolve: @escaping RCTPromiseResolveBlock,
+        rejecter reject: @escaping RCTPromiseRejectBlock
+    ) {
+        Messaging.messaging().token { token, error in
+
+            if let error = error {
+                reject(
+                    "FCM_TOKEN_ERROR",
+                    error.localizedDescription,
+                    error
+                )
+                return
+            }
+
+            resolve(token)
+        }
+    }
+
+    @objc
+    static func requiresMainQueueSetup() -> Bool {
+        return false
+    }
 }
-

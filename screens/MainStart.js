@@ -19,9 +19,13 @@ import config from '../config.js';
 import axios from "axios";
 import NetInfo from '@react-native-community/netinfo';
 
+
 const MainStart = ({ navigation, route }) => {
 
 	console.log("===== MAINSTART RENDER =====");
+
+    console.log("🔥🔥🔥 MAINSTART CODE TERBARU - TEST 123");
+console.log("🔥 ROUTE PARAMS =", JSON.stringify(route.params));
 
     // =========================================================
     // URL
@@ -337,6 +341,53 @@ useEffect(() => {
     }, [exitApp, urlPageNow]);
 
 
+
+
+
+
+// =========================================================
+// NOTIFICATION → CHAT ARDA
+// =========================================================
+
+useEffect(() => {
+    console.log("💬💬💬 CHAT EFFECT MASUK");
+    console.log(
+        "💬 notificationChat =",
+        route.params?.notificationChat
+    );
+    console.log(
+        "💬 chatUrl =",
+        route.params?.chatUrl
+    );
+
+    const openChatFromNotification = async () => {
+
+        if (route.params?.notificationChat !== true) {
+            console.log("❌ BUKAN CHAT NOTIFICATION");
+            return;
+        }
+
+        const chatUrl = route.params?.chatUrl;
+
+        console.log("💬💬💬 CHAT URL AKAN DIBUKA =", chatUrl);
+
+        if (!chatUrl) {
+            console.log("❌ CHAT URL KOSONG");
+            return;
+        }
+
+        setStateURL(chatUrl);
+    };
+
+    openChatFromNotification();
+
+}, [
+    route.params?.notificationChat,
+    route.params?.chatUrl,
+    route.params?.notificationKey
+]);
+
+
     // =========================================================
     // GET LOCATION
     // =========================================================
@@ -575,7 +626,6 @@ if (
 
     return;
 }
-
 
 
                 // =============================================

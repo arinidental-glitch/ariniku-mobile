@@ -1,15 +1,21 @@
 #import "AppDelegate.h"
 
+#import <Firebase/Firebase.h>
+#import <FirebaseCore/FirebaseCore.h>
+
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTLinkingManager.h>
-#import <FirebaseCore/FirebaseCore.h>
+#import <React/RCTBridge.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // Firebase
     [FIRApp configure];
+
+    NSLog(@"🔥 DEFAULT FIREBASE APP = %@", [FIRApp defaultApp]);
 
     self.moduleName = @"main";
     self.initialProps = @{};
@@ -24,18 +30,27 @@
     return result;
 }
 
-- (NSURL *)bundleURL
+// IMPORTANT:
+// Expo SDK 54 expects sourceURLForBridge:
+- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
 #if DEBUG
-    NSURL *jsURL = [[RCTBundleURLProvider sharedSettings]
-        jsBundleURLForBundleRoot:@".expo/.virtual-metro-entry"];
+    NSURL *url =
+        [[RCTBundleURLProvider sharedSettings]
+            jsBundleURLForBundleRoot:@".expo/.virtual-metro-entry"];
 
-    NSLog(@"===== BUNDLE URL: %@ =====", jsURL);
+    NSLog(@"===== BUNDLE URL: %@ =====", url);
 
-    return jsURL;
+    return url;
 #else
-    return [[NSBundle mainBundle] URLForResource:@"main"
-                                   withExtension:@"jsbundle"];
+    NSURL *url =
+        [[NSBundle mainBundle]
+            URLForResource:@"main"
+            withExtension:@"jsbundle"];
+
+    NSLog(@"===== RELEASE BUNDLE URL: %@ =====", url);
+
+    return url;
 #endif
 }
 

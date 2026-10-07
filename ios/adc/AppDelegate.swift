@@ -17,6 +17,7 @@ class AppDelegate: ExpoAppDelegate {
   ) -> Bool {
 
     FirebaseApp.configure()
+    print("🔥 FIREBASE NATIVE CONFIGURED =", FirebaseApp.app() != nil)
 
     let delegate = ReactNativeDelegate()
     let factory = ExpoReactNativeFactory(delegate: delegate)
