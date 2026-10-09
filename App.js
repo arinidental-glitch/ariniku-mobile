@@ -320,6 +320,39 @@ console.log("🔥 NOTIFICATION USERID =", userid);
         }
 
 
+                // ==========================================
+        // PROMO
+        // ==========================================
+
+        if (
+            actionType === "PROMO"
+        ) {
+
+            console.log(
+                "🎁 OPEN PROMO"
+            );
+
+            console.log(
+                "PROMO ID =",
+                actionValue
+            );
+
+            navigationRef.current.navigate(
+                "MainStart",
+                {
+                    notificationPromo: true,
+                    promoId: actionValue,
+                    promoUrl:
+                        config.url_backend +
+                        "/Menu/PromoDetail?code=" +
+                        encodeURIComponent(actionValue)
+                }
+            );
+
+            return;
+        }
+
+
         // ==========================================
         // INBOX
         // ==========================================
@@ -1188,6 +1221,45 @@ try {
 
                     return;
 
+                }
+
+
+                // ==========================================
+                // PROMO
+                // ==========================================
+
+                if (
+                    actionType === "PROMO"
+                ) {
+
+                    console.log(
+                        "NOTIFICATION CLICKED - OPEN PROMO"
+                    );
+
+                    console.log(
+                        "PROMO ID =",
+                        actionValue
+                    );
+
+                    if (
+                        navigationRef.current
+                    ) {
+
+                        navigationRef.current.navigate(
+                            "MainStart",
+                            {
+                                notificationPromo: true,
+                                promoId: actionValue,
+                                promoUrl:
+                                    config.url_backend +
+                                    "/Menu/PromoDetail?code=" +
+                                    encodeURIComponent(actionValue)
+                            }
+                        );
+
+                    }
+
+                    return;
                 }
 
 

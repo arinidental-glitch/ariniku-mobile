@@ -9,7 +9,8 @@ import {
     Image,
     ActivityIndicator,
     Text,
-    Platform
+    Platform,
+    AppState
 } from 'react-native';
 
 import { WebView } from 'react-native-webview';
@@ -40,6 +41,7 @@ console.log("🔥 ROUTE PARAMS =", JSON.stringify(route.params));
 
     const webview = useRef(null);
 
+    const appState = useRef(AppState.currentState);
 
     // =========================================================
     // STATE
@@ -223,6 +225,105 @@ useEffect(() => {
 }, [
     route.params?.notificationArticle,
     route.params?.articleId
+]);
+
+
+
+
+// =========================================================
+// APP FOREGROUND / BACKGROUND
+// =========================================================
+
+useEffect(() => {
+
+    const subscription = AppState.addEventListener(
+        "change",
+        nextAppState => {
+
+            console.log(
+                "APP STATE =",
+                appState.current,
+                "→",
+                nextAppState
+            );
+
+            // App kembali dari background ke foreground
+            if (
+                appState.current.match(/inactive|background/) &&
+                nextAppState === "active"
+            ) {
+
+                console.log(
+                    "🔄 APP KEMBALI KE FOREGROUND"
+                );
+
+                // Tunggu sebentar agar WebView
+                // selesai dipulihkan oleh OS
+                setTimeout(() => {
+
+                    if (webview.current) {
+
+                        console.log(
+                            "🔄 CHECK WEBVIEW SETELAH FOREGROUND"
+                        );
+
+                        webview.current.injectJavaScript(`
+                            document.body && document.body.innerHTML
+                                ? true
+                                : false;
+                            true;
+                        `);
+
+                    }
+
+                }, 1000);
+            }
+
+            appState.current = nextAppState;
+        }
+    );
+
+    return () => {
+        subscription.remove();
+    };
+
+}, []);
+
+
+
+// =========================================================
+// NOTIFICATION → PROMO
+// =========================================================
+
+useEffect(() => {
+
+    if (!route.params?.notificationPromo) {
+        return;
+    }
+
+    const promoId = route.params?.promoId;
+
+    console.log("========================================");
+    console.log("PROMO NOTIFICATION EFFECT");
+    console.log("PROMO ID =", promoId);
+
+    if (!promoId) {
+        console.log("PROMO ID KOSONG");
+        return;
+    }
+
+    const promoUrl =
+        config.url_backend +
+        "/Menu/PromoDetail?code=" +
+        encodeURIComponent(promoId);
+
+    console.log("PROMO URL =", promoUrl);
+
+    setStateURL(promoUrl);
+
+}, [
+    route.params?.notificationPromo,
+    route.params?.promoId
 ]);
 
 
@@ -586,6 +687,49 @@ if (
         return;
     }
 }   
+
+
+// =============================================
+// NOTIFICATION → PROMO
+// =============================================
+
+if (
+    route.params?.notificationPromo === true
+) {
+
+    const promoId =
+        route.params?.promoId;
+
+    console.log(
+        "========================================"
+    );
+
+    console.log(
+        "NOTIFICATION → OPEN PROMO"
+    );
+
+    console.log(
+        "PROMO ID =",
+        promoId
+    );
+
+    if (promoId) {
+
+        const promoUrl =
+            config.url_backend +
+            "/Menu/PromoDetail?code=" +
+            encodeURIComponent(promoId);
+
+        console.log(
+            "PROMO URL =",
+            promoUrl
+        );
+
+        setStateURL(promoUrl);
+
+        return;
+    }
+}
 
 
 // =============================================
@@ -1080,6 +1224,17 @@ if (
 }}
 
     onError={handleError}
+
+    onContentProcessDidTerminate={() => {
+    console.log(
+        "⚠️ WebView content process terminated"
+    );
+
+    setWebError(false);
+    setWebLoading(true);
+
+    setWebKey(prev => prev + 1);
+}}
 
     startInLoadingState={true}
 
